@@ -177,4 +177,43 @@ before applying the operators ending in an expression that can never resolve|#
 )
 
 
-(sqrt 20000000000000000000)
+(sqrt 200)
+
+#| 
+    Excercise 1.8
+    make a cube-root procedure
+    using newtons method for improving an estimation of
+    the root of a cube
+
+    formula
+
+     x/y^2 + 2y
+    ------------
+        3
+    
+|#
+
+(define (cbrt-improve guess x)
+    (/
+        (+ (/ x (square guess)) (* 2 guess))
+        3
+    )
+)
+
+(define (cbrt-good-enough? guess x)
+    (<= (abs (- (cbrt-improve guess x) guess )) (* guess 0.001))
+)
+
+(define (cbrt-iter guess x)
+    (if (cbrt-good-enough? guess x)
+        guess
+        (cbrt-iter (cbrt-improve guess x) x)
+
+    )
+)
+
+(define (cube-root x)
+    (cbrt-iter 1.0 x)
+)
+
+(cube-root (* 6 6 6))
