@@ -179,41 +179,39 @@ before applying the operators ending in an expression that can never resolve|#
 
 (sqrt 200)
 
-#| 
-    Excercise 1.8
-    make a cube-root procedure
+#|  Excercise 1.8
+    a cube-root procedure
     using newtons method for improving an estimation of
-    the root of a cube
-
-    formula
-
-     x/y^2 + 2y
-    ------------
-        3
+    the root of a cube |#
     
-|#
-
-(define (cbrt-improve guess x)
-    (/
-        (+ (/ x (square guess)) (* 2 guess))
-        3
-    )
-)
-
-(define (cbrt-good-enough? guess x)
-    (<= (abs (- (cbrt-improve guess x) guess )) (* guess 0.001))
-)
-
-(define (cbrt-iter guess x)
-    (if (cbrt-good-enough? guess x)
-        guess
-        (cbrt-iter (cbrt-improve guess x) x)
-
-    )
-)
-
 (define (cube-root x)
+    (define (cbrt-improve guess x)
+        #| Improve our guess using newtons formula
+           x/y^2 + 2y
+          ------------
+               3
+          where y is our guess and x is our operand |#
+
+        (/
+            (+ (/ x (square guess)) (* 2 guess))
+            3
+        )
+    )
+
+    (define (cbrt-good-enough? guess x)
+        #| When the change of an improved guess 
+            is less than or equal to .1% of our guess |#
+        (<= (abs (- (cbrt-improve guess x) guess )) (* guess 0.0001))
+    )
+
+    (define (cbrt-iter guess x)
+        ; While out guess is not good enough keep improving
+        (if (cbrt-good-enough? guess x)
+            guess
+            (cbrt-iter (cbrt-improve guess x) x)
+        )
+    )
     (cbrt-iter 1.0 x)
 )
 
-(cube-root (* 6 6 6))
+(cube-root (* 5 5 5)) ;--> 5.000038
