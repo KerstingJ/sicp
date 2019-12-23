@@ -151,8 +151,7 @@ before applying the operators ending in an expression that can never resolve|#
         )
     )
 
-    This actually works on my machine... But there could be an error in an
-    applicative interpreter. 
+    This actually works on my machine... 
     in an applicative environment the condition would be continually expanded
     until you hit your recursion depth and error out because it could never
     resolve the value of a recursive clause.
@@ -215,3 +214,38 @@ before applying the operators ending in an expression that can never resolve|#
 )
 
 (cube-root (* 5 5 5)) ;--> 5.000038
+
+#|  Excercise 1.11 
+    A function f is defined by 
+    if n < 3, f(n) = n
+    else f(n) = f(n-1) + 2f(n-2) + 3f(n-3)
+
+    write an iterative procedure and a recursive procedure
+|#
+
+; recursive
+(define (func-11-rec n)
+    (if (< n 3)
+        n
+        (+ 
+            (func-11-rec (- n 1))
+            (* 2 (func-11-rec (- n 2)))
+            (* 3 (func-11-rec (- n 3)))
+        )
+    )
+)
+
+; iterative
+; This is very similar to the iterative fib
+; where you keep track of your previous value and work your way up
+(define (func-11-iter n)
+    (define (func-iter i a b c)
+        (cond 
+            ((< i 0) i)
+            ((= i 0) a)
+            (else (func-iter (- i 1) b c (+ c (* 2 b) (* 3 a))))
+        )
+    )
+
+    (func-iter n 0 1 2)
+)
