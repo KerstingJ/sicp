@@ -249,3 +249,38 @@ before applying the operators ending in an expression that can never resolve|#
 
     (func-iter n 0 1 2)
 )
+
+
+#|
+    excercise 1.12
+    pacals triable recursive function
+
+    1
+    1   1
+    1   2   1
+    1   3   3   1
+    1   4   6   4   1
+    1   5   10  10  5   1
+
+|#
+
+(define (pascal row col)
+    (cond 
+        ((or (< row 1) (< col 1)) 0)
+        ; If its the first row
+        ((= row 1) 1)
+        ; If its the first col
+        ((= col 1) 1)
+        ; if its the last col
+        ((= col row) 1)
+        ; any other location in the triangle
+        (else (+
+            (pascal (- row 1) (- col 1))
+            (pascal (- row 1) col)
+        ))
+    )
+)
+
+#|
+    
+|#
