@@ -282,5 +282,29 @@ before applying the operators ending in an expression that can never resolve|#
 )
 
 #|
-    
+    Excercise 1.16
+    Design an iterative version of the exponentiation function
+
+    (define (fast-expnt b n)(
+        cond 
+        ((= n 0) 1)
+        ((even? n) (square (fast-expnt b (/ n 2))))
+        (else (* b (fast-expnt b (- n 1))))
+    ))
 |#
+
+(define (even? n)
+    (= (remainder n 2) 0)
+)
+
+(define (expnt b n)
+    (define (expnt-iter b n a)
+        (cond
+            ((= n 0) a)
+            ((even? n) (expnt-iter (square b) (/ n 2) a))
+            (else (expnt-iter b (- n 1) (* a b)))
+        )
+    )
+    (expnt-iter b n 1)
+)
+
