@@ -308,3 +308,40 @@ before applying the operators ending in an expression that can never resolve|#
     (expnt-iter b n 1)
 )
 
+#|
+    excercise 1.17
+    design a logarithmic multiplication procedure using only
+    addition, subtraction, doubling, and halving
+|#
+
+(define (double x)
+    (* x 2))
+(define (halve x)
+    (/ x 2))
+
+#|
+    x   y   a
+    7   8   0
+    14  4   0
+    28  2   0
+    56  1   0
+    ---------
+    8   7   0
+    8   6   8
+    16  3   8
+    16  2   24
+    32  1   24
+
+|#
+
+(define (multy x y)
+    (define (iter x y a)
+        (cond 
+            ((= y 1) (+ a x))
+            ((even? y) (iter (double x) (halve y) a))
+            (else (iter x (- y 1) (+ a x)))
+        )
+    )
+
+    (iter x y 0)
+)
